@@ -15,16 +15,26 @@ import messages from './messages';
 import FiltersSelector from 'components/FiltersSelector';
 import PaymentList from 'components/PaymentList';
 
-/* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+    this.handleFiltersChange = this.handleFiltersChange.bind(this);
+    this.state = {filters : {}};
+  }
+
+  handleFiltersChange(newFilters) {
+    this.setState({filters : newFilters});
+  }
+
   render() {
     return (
       <div>
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        <FiltersSelector />
-        <PaymentList />
+        <FiltersSelector onFiltersChange={this.handleFiltersChange} />
+        <PaymentList filters={this.state.filters}/>
       </div>
     );
   }

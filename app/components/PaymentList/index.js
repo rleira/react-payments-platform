@@ -1,15 +1,33 @@
 import React, { Component } from 'react';
 
-const serviceUrl = 'https://randomuser.me/api/?results=10&nat=us';
+const serviceBaseUrl = 'https://randomuser.me/api/';
+const urlDefaultParams = 'results=10&nat=us';
 
 class PaymentList extends Component {
-  state = { payments: [] };
+  state = {
+    filters : this.props.filters,
+    payments: []
+  };
   componentDidMount() {
-    fetch(serviceUrl)
+    fetch(`${serviceBaseUrl}?${urlDefaultParams}`)
       .then(results => results.json())
       .then(response => {
-        const payments = response.results;
-        this.setState({ payments });
+        this.setState({ payments: response.results });
+      });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.filters !== prevProps.filters) {
+      this.updateList(this.props.filters);
+    }
+  }
+
+  updateList(filters) {
+    fetch(`${serviceBaseUrl}?${urlDefaultParams}&currency=${filters.currency}&amount=${filters.amount}&transactionId=${filters.transactionId}&merchantId=${filters.merchantId}`
+    )
+      .then(results => results.json())
+      .then(response => {
+        this.setState({ payments: response.results });
       });
   }
 

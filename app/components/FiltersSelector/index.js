@@ -35,7 +35,7 @@ class CurrencySelector extends Component {
   }
 
   handleSubmit(event) {
-    console.log('Filters: ' + JSON.stringify(this.state));
+    this.props.onFiltersChange(this.state);
     event.preventDefault();
   }
 
