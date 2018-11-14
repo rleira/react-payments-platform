@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const serviceBaseUrl = 'https://randomuser.me/api/';
+const serviceBaseUrl = 'http://localhost:8084/api/payments';
 const urlDefaultParams = 'results=10&nat=us';
 
 class PaymentList extends Component {
@@ -9,10 +9,11 @@ class PaymentList extends Component {
     payments: []
   };
   componentDidMount() {
-    fetch(`${serviceBaseUrl}?${urlDefaultParams}`)
+    fetch(`${serviceBaseUrl}`)
       .then(results => results.json())
       .then(response => {
-        this.setState({ payments: response.results });
+        console.log(response.payments);
+        this.setState({ payments: response.payments });
       });
   }
 
@@ -23,11 +24,11 @@ class PaymentList extends Component {
   }
 
   updateList(filters) {
-    fetch(`${serviceBaseUrl}?${urlDefaultParams}&currency=${filters.currency}&amount=${filters.amount}&transactionId=${filters.transactionId}&merchantId=${filters.merchantId}`
-    )
+    fetch(`${serviceBaseUrl}?currency=${filters.currency}&amount=${filters.amount}&transactionId=${filters.transactionId}&merchantId=${filters.merchantId}`)
       .then(results => results.json())
       .then(response => {
-        this.setState({ payments: response.results });
+        console.log(response.payments);
+        this.setState({ payments: response.payments });
       });
   }
 
@@ -47,13 +48,13 @@ class PaymentList extends Component {
             </tr>
           </thead>
           <tbody>
-          {this.state.payments.map(user => {
+          {this.state.payments.map(payment => {
             return (
-              <tr key={user.id.value}>
-                <td>{user.name.first}</td>
-                <td><img src={user.picture.thumbnail} alt="" /></td>
-                <td>{user.email}</td>
-                <td>{user.gender}</td>
+              <tr key={payment.id}>
+                <td>{payment.currency}</td>
+                <td>{payment.amount}</td>
+                <td>{payment.transaction_id}</td>
+                <td>{payment.merchant_id}</td>
               </tr>
             );
           })}
