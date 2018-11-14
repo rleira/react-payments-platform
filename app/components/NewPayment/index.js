@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const newPaymentEndpoint = 'https://randomuser.me/api/?results=10&nat=us';
+const newPaymentEndpoint = 'http://localhost:8084/api/payments';
 
 class NewPayment extends Component {
   constructor(props) {
@@ -8,8 +8,8 @@ class NewPayment extends Component {
     this.state = {
       currency: 'USD',
       amount: 0,
-      transactionId: '',
-      merchantId: ''
+      transaction_id: '',
+      merchant_id: ''
     };
 
     this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -29,16 +29,20 @@ class NewPayment extends Component {
   }
 
   handleMerchantIdChange(event) {
-    this.setState({merchantId: event.target.value});
+    this.setState({merchant_id: event.target.value});
   }
 
   handleTransactionIdChange(event) {
-    this.setState({transactionId: event.target.value});
+    this.setState({transaction_id: event.target.value});
   }
 
   handleSubmit(event) {
     fetch(newPaymentEndpoint, {
       method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(this.state),
     });
     event.preventDefault();
@@ -50,10 +54,7 @@ class NewPayment extends Component {
         <div>
           <label>
             Currency:
-            <select value={this.state.currency} onChange={this.handleCurrencyChange}>
-              <option value="USD">USD</option>
-              <option value="EUR">Euro</option>
-            </select>
+            <input type="text" value={this.state.currency} onChange={this.handleCurrencyChange} />
           </label>
         </div>
         <div>
@@ -65,13 +66,13 @@ class NewPayment extends Component {
         <div>
           <label>
             Transaction:
-            <input type="string" value={this.state.transactionId} onChange={this.handleTransactionIdChange} />
+            <input type="string" value={this.state.transaction_id} onChange={this.handleTransactionIdChange} />
           </label>
         </div>
         <div>
           <label>
             Merchant:
-            <input type="string" value={this.state.merchantId} onChange={this.handleMerchantIdChange} />
+            <input type="string" value={this.state.merchant_id} onChange={this.handleMerchantIdChange} />
           </label>
         </div>
 

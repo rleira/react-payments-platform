@@ -45,10 +45,7 @@ class CurrencySelector extends Component {
         <div>
           <label>
             Filter by currency:
-            <select value={this.state.currency} onChange={this.handleCurrencyChange}>
-              <option value="USD">USD</option>
-              <option value="EUR">Euro</option>
-            </select>
+            <input type="text" value={this.state.currency} onChange={this.handleCurrencyChange} />
           </label>
         </div>
         <div>
@@ -60,13 +57,13 @@ class CurrencySelector extends Component {
         <div>
           <label>
             Filter by Transaction:
-            <input type="string" value={this.state.transactionId} onChange={this.handleTransactionIdChange} />
+            <input type="text" value={this.state.transactionId} onChange={this.handleTransactionIdChange} />
           </label>
         </div>
         <div>
           <label>
             Filter by Merchant:
-            <input type="string" value={this.state.merchantId} onChange={this.handleMerchantIdChange} />
+            <input type="text" value={this.state.merchantId} onChange={this.handleMerchantIdChange} />
           </label>
         </div>
 
